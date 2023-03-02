@@ -15,16 +15,36 @@
 # Ganarating random number
 import random
 
-easy = random.randint(1, 3)
+easy = random.randint(1, 10)
 medium = random.randint(1, 100)
 hard = random.randint(-500, 500)
 # Custom = input("Input a range of numbers:  ")
+easy_limit = 10
+medium_limit = 100
+hard_limit = 1000
 
-generated_number = easy
-number = generated_number
 too_high = "Your number is too high, try again"
 too_low = "Your number is too low, try again"
 
+# Choosing game mode
+class GameMode:
+    def __init__(self, mode, limit):
+        self.mode = mode
+        self.limit = limit
+
+print('choose game mode: easy, medium, hard:')
+choosing_mode = str(input())
+if choosing_mode == "easy":
+    generated_number = easy
+if choosing_mode == "medium":
+    generated_number = medium
+if choosing_mode == "hard":
+    generated_number = hard
+
+number = generated_number
+
+
+limiter = 1
 guess = int(input("Input a number: "))
 
 if guess == number:

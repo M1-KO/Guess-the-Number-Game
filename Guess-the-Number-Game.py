@@ -6,7 +6,7 @@
 #     Custom - Player decide a range of numbers
 
 # How many guesses the player will get before the game is over:
-#     2 to the power which is bigger than a amount of numbers e.g. range 1 to 100 - guess number = 2 ** x > 100, so here its 7
+# 2tothepower which is bigger than a amount of numbers e.g. range 1 to 100 - guess number = 2 ** x > 100, so here its 7
 
 # Winning condition:
 #     guessing the correct number within the given number of guesse
@@ -40,6 +40,3 @@ while guess != number:
         guess = int(input("Input a number: "))
 else:
     print(f"Nice, You guessed it! The number was {number}!")
-
-
-

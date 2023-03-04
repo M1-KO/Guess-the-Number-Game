@@ -5,7 +5,7 @@
 # #     Hard - -500 to 500
 #
 # # How many guesses the player will get before the game is over:
-# # 2tothepower which is bigger than a amount of numbers e.g. range 1 to 100 - guess number = 2 ** x > 100, so here its 7
+# # 2tothepower which is bigger than a amount of numbers e.g. range1to100 - guess number = 2 ** x > 100, so here its 7
 #
 # # Winning condition:
 # #     guessing the correct number within the given number of guesses

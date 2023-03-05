@@ -12,7 +12,6 @@
 
 import random
 
-
 print(".:Welcome to Guess the Number Game:.")
 
 
@@ -83,7 +82,7 @@ def guess_the_number_game(difficulty):
             countdown = limit
             while countdown >= 0:
 
-            # for countdown in range(limit, -1, -1):
+                # for countdown in range(limit, -1, -1):
 
                 if countdown == 0:
                     print(f"Sorry, you didn't guess the number. It was {random_number}.")
@@ -144,5 +143,3 @@ def start_game():
 
 if __name__ == "__main__":
     start_game()
-
-

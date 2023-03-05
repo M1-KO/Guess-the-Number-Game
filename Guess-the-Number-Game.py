@@ -12,6 +12,37 @@
 
 import random
 
+# x = int(input("Input integer range from: "))
+# y = int(input("Input integer range to: "))
+# x_and_y = abs(x) + abs(y)
+#
+# test = f"{x} and {y}"
+#
+#
+# if x_and_y == 0:
+#     print("wrong value")
+#
+# elif x_and_y == 1:
+#     z = 1
+#
+# elif x or y <= 0:
+#     for z in range(0, x_and_y + 1):
+#         if 2 ** z >= x_and_y:
+#             break
+#
+# elif x >= y:
+#     for z in range(y, x_and_y + 1):
+#         if 2 ** z >= x_and_y:
+#             break
+#
+# elif x < y:
+#     for z in range(x, x_and_y + 1):
+#         if 2 ** z >= x_and_y:
+#             break
+#
+# print(z)
+
+
 print(".:Welcome to Guess the Number Game:.")
 
 
@@ -28,6 +59,53 @@ def guess_the_number_game(difficulty):
         random_number = random.randint(-500, 500)
         range_of_numbers = "-500 and 500"
         limit = 10
+    elif difficulty == 'custom':
+        # x = int(input("Input integer range from: "))
+        # y = int(input("Input integer range to: "))
+        # range_of_numbers = f"{x} and {y}"
+        # range_value = math.sqrt(x ** 2) + math.sqrt(y ** 2)
+        # limit = range_value
+        while True:
+            x = input("Input integer range from: ")
+            if x.isdigit():
+                x = int(x)
+                break
+            else:
+                print("Invalid answer.")
+
+        while True:
+            y = input("Input integer range to: ")
+            if y.isdigit():
+                y = int(y)
+                break
+            else:
+                print("Invalid answer.")
+
+        random_number = random.randint(x, y)
+        x_and_y = abs(x) + abs(y)
+        range_of_numbers = f"{x} and {y}"
+
+        if x_and_y == 0:
+            print("wrong value")
+            guess_the_number_game(difficulty)
+
+        elif x_and_y == 1:
+            limit = 1
+
+        elif x or y <= 0:
+            for limit in range(0, x_and_y + 1):
+                if 2 ** limit >= x_and_y:
+                    break
+
+        elif x >= y:
+            for limit in range(y, x_and_y + 1):
+                if 2 ** limit >= x_and_y:
+                    break
+
+        elif x < y:
+            for limit in range(x, x_and_y + 1):
+                if 2 ** limit >= x_and_y:
+                    break
 
     print(f".:{difficulty.upper()} MODE:.")
     print(f"Guess a number between {range_of_numbers}. You have {limit} guesses.")
@@ -70,10 +148,10 @@ def guess_the_number_game(difficulty):
 
 def start_game():
     while True:
-        print('Select difficulty level: Easy, Medium, Hard: ')
+        print('Select difficulty level: Easy, Medium, Hard, Custom: ')
         difficulty = str(input().casefold())
 
-        if difficulty in ['easy', 'medium', 'hard']:
+        if difficulty in ['easy', 'medium', 'hard', 'custom']:
             guess_the_number_game(difficulty)
             break
         else:

@@ -12,34 +12,6 @@
 
 import random
 
-print(abs(5 - -2))
-# x = int(input("Input integer range from: "))
-# y = int(input("Input integer range to: "))
-#
-# x_and_y = abs(x - y)
-# print(x_and_y)
-#
-# if x_and_y == 1:
-#     z = 1
-#
-# elif x or y <= 0:
-#     for z in range(0, x_and_y + 1):
-#         if 2 ** z >= x_and_y:
-#             break
-#
-# elif x >= y:
-#     for z in range(y, x_and_y + 1):
-#         if 2 ** z >= x_and_y:
-#             break
-#
-# elif x < y:
-#     for z in range(x, x_and_y + 1):
-#         if 2 ** z >= x_and_y:
-#             break
-#
-# print(z)
-
-
 
 print(".:Welcome to Guess the Number Game:.")
 
@@ -48,14 +20,17 @@ def guess_the_number_game(difficulty):
     if difficulty == 'easy':
         random_number = random.randint(1, 10)
         range_of_numbers = "1 and 10"
+        range_of_values = range(1, 11)
         limit = 4
     elif difficulty == 'medium':
         random_number = random.randint(1, 100)
         range_of_numbers = "1 and 100"
+        range_of_values = range(1, 101)
         limit = 7
     elif difficulty == 'hard':
         random_number = random.randint(-500, 500)
         range_of_numbers = "-500 and 500"
+        range_of_values = range(-500, 501)
         limit = 10
     elif difficulty == 'custom':
 
@@ -81,9 +56,11 @@ def guess_the_number_game(difficulty):
         elif y > x:
             random_number = random.randint(x, y)
             range_of_numbers = f"{x} and {y}"
+            range_of_values = range(x, y + 1)
         else:
             random_number = random.randint(y, x)
             range_of_numbers = f"{y} and {x}"
+            range_of_values = range(y, x + 1)
 
         x_and_y = abs(x - y)
 
@@ -99,24 +76,41 @@ def guess_the_number_game(difficulty):
     print(f"Guess a number between {range_of_numbers}. You have {limit} guesses.")
     attempts = 0
 
-    for countdown in range(limit, -1, -1):
+    while True:
+        try:
+            countdown = limit
+            while countdown >= 0:
 
-        if countdown == 0:
-            print(f"Sorry, you didn't guess the number. It was {random_number}.")
-            break
+            # for countdown in range(limit, -1, -1):
 
-        guess = int(input(f"You have {countdown} guesses left: "))
-        attempts += 1
+                if countdown == 0:
+                    print(f"Sorry, you didn't guess the number. It was {random_number}.")
+                    break
 
-        if guess == random_number:
-            print(f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
-            break
+                guess = int(input(f"You have {countdown} guesses left: "))
+                if guess not in range_of_values:
+                    print(f"Please enter a valid number between {range_of_numbers}.")
+                    continue
 
-        elif guess < random_number:
-            print("Too low!")
+                attempts += 1
+
+                if guess == random_number:
+                    print(f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
+                    break
+
+                elif guess < random_number:
+                    print("Too low!")
+
+                else:
+                    print("Too high!")
+
+                countdown -= 1
+
+        except ValueError:
+            print("Invalid answer.")
 
         else:
-            print("Too high!")
+            break
 
     def new_quit_game():
 
@@ -148,3 +142,5 @@ def start_game():
 
 if __name__ == "__main__":
     start_game()
+
+

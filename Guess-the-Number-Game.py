@@ -34,10 +34,13 @@ def guess_the_number_game(difficulty):
         limit = 10
     elif difficulty == 'custom':
 
+        custom_values = []
+
         while True:
             x = input("Input integer range from: ")
             try:
                 x = int(x)
+                custom_values.append(x)
                 break
             except ValueError:
                 print("Invalid answer.")
@@ -46,21 +49,20 @@ def guess_the_number_game(difficulty):
             y = input("Input integer range to: ")
             try:
                 y = int(y)
+                custom_values.append(y)
                 break
             except ValueError:
                 print("Invalid answer.")
 
+        custom_values.sort()
+
         if x == y:
             print("Nice try, but that would be too easy \U0001F609")
             guess_the_number_game(difficulty)
-        elif y > x:
-            random_number = random.randint(x, y)
-            range_of_numbers = f"{x} and {y}"
-            range_of_values = range(x, y + 1)
         else:
-            random_number = random.randint(y, x)
-            range_of_numbers = f"{y} and {x}"
-            range_of_values = range(y, x + 1)
+            random_number = random.randint(custom_values[0], custom_values[1])
+            range_of_numbers = f"{custom_values[0]} and {custom_values[1]}"
+            range_of_values = range(custom_values[0], custom_values[1] + 1)
 
         x_and_y = abs(x - y)
 

@@ -76,11 +76,28 @@ def guess_the_number_game(difficulty):
     print(f".:{difficulty.upper()} MODE:.")
     print(f"Guess a number between {range_of_numbers}. You have {limit} guesses.")
     attempts = 0
+    sort_min = custom_values[0]
+    sort_max = custom_values[1]
 
     while True:
         try:
             countdown = limit
             while countdown >= 0:
+
+                if countdown == limit:
+                    win_probability = 1 / (abs(sort_min - sort_max) + 1) * 100
+                    print(f"Probability of winning in next guess: {win_probability}")
+                elif (sort_min == custom_values[0]) ^ (sort_max == custom_values[1]):
+                    win_probability = 1 / (abs(sort_min - sort_max)) * 100
+                    print(f"sort_min: {sort_min}")
+                    print(f"sort_max: {sort_max}")
+                    print(f"Probability of winning in next guess: {win_probability}")
+                else:
+                    win_probability = 1 / (abs(sort_min - sort_max) - 1) * 100
+                    print(f"sort_min: {sort_min}")
+                    print(f"sort_max: {sort_max}")
+                    print(f"Probability of winning in next guess: {win_probability}")
+
 
                 # for countdown in range(limit, -1, -1):
 
@@ -101,9 +118,13 @@ def guess_the_number_game(difficulty):
 
                 elif guess < random_number:
                     print("Too low!")
+                    if guess < sort_max:
+                        sort_min = guess
 
                 else:
                     print("Too high!")
+                    if guess > sort_min:
+                        sort_max = guess
 
                 countdown -= 1
 

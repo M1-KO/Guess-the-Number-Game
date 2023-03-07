@@ -18,19 +18,19 @@ print(".:Welcome to Guess the Number Game:.")
 def guess_the_number_game(difficulty):
     if difficulty == 'easy':
         random_number = random.randint(1, 10)
-        range_of_numbers = "1 and 10"
-        range_of_values = range(1, 11)
         limit = 4
+        min_value = 1
+        max_value = 10
     elif difficulty == 'medium':
         random_number = random.randint(1, 100)
-        range_of_numbers = "1 and 100"
-        range_of_values = range(1, 101)
         limit = 7
+        min_value = 1
+        max_value = 100
     elif difficulty == 'hard':
         random_number = random.randint(-500, 500)
-        range_of_numbers = "-500 and 500"
-        range_of_values = range(-500, 501)
         limit = 10
+        min_value = -500
+        max_value = 500
     elif difficulty == 'custom':
 
         custom_values = []
@@ -54,14 +54,14 @@ def guess_the_number_game(difficulty):
                 print("Invalid answer.")
 
         custom_values.sort()
+        min_value = custom_values[0]
+        max_value = custom_values[1]
 
         if x == y:
             print("Nice try, but that would be too easy \U0001F609")
             guess_the_number_game(difficulty)
         else:
-            random_number = random.randint(custom_values[0], custom_values[1])
-            range_of_numbers = f"{custom_values[0]} and {custom_values[1]}"
-            range_of_values = range(custom_values[0], custom_values[1] + 1)
+            random_number = random.randint(min_value, max_value)
 
         x_and_y = abs(x - y)
 
@@ -74,10 +74,11 @@ def guess_the_number_game(difficulty):
                     break
 
     print(f".:{difficulty.upper()} MODE:.")
-    print(f"Guess a number between {range_of_numbers}. You have {limit} guesses.")
+    print(f"Guess a number between {min_value} and {max_value}. You have {limit} guesses.")
+
     attempts = 0
-    sort_min = custom_values[0]
-    sort_max = custom_values[1]
+    sort_min = min_value
+    sort_max = max_value
 
     while True:
         try:
@@ -85,29 +86,22 @@ def guess_the_number_game(difficulty):
             while countdown >= 0:
 
                 if countdown == limit:
-                    win_probability = 1 / (abs(sort_min - sort_max) + 1) * 100
-                    print(f"Probability of winning in next guess: {win_probability}")
-                elif (sort_min == custom_values[0]) ^ (sort_max == custom_values[1]):
+                    win_probability = (1 / (abs(sort_min - sort_max) + 1) * 100)
+                    print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
+                elif (sort_min == min_value) ^ (sort_max == max_value):
                     win_probability = 1 / (abs(sort_min - sort_max)) * 100
-                    print(f"sort_min: {sort_min}")
-                    print(f"sort_max: {sort_max}")
-                    print(f"Probability of winning in next guess: {win_probability}")
+                    print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
                 else:
                     win_probability = 1 / (abs(sort_min - sort_max) - 1) * 100
-                    print(f"sort_min: {sort_min}")
-                    print(f"sort_max: {sort_max}")
-                    print(f"Probability of winning in next guess: {win_probability}")
-
-
-                # for countdown in range(limit, -1, -1):
+                    print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
 
                 if countdown == 0:
                     print(f"Sorry, you didn't guess the number. It was {random_number}.")
                     break
 
                 guess = int(input(f"You have {countdown} guesses left: "))
-                if guess not in range_of_values:
-                    print(f"Please enter a valid number between {range_of_numbers}.")
+                if guess not in range(sort_min, sort_max):
+                    print(f"Please enter a valid number between {sort_min} and {sort_max}.")
                     continue
 
                 attempts += 1

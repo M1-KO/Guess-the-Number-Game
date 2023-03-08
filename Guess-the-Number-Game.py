@@ -1,21 +1,36 @@
-# # Game rules:
-# # A range of numbers that the player can guess from:
-# #     Easy - 1 to 10
-# #     Medium - 1 to 100
-# #     Hard - -500 to 500
-#
-# # How many guesses the player will get before the game is over:
-# # 2tothepower which is bigger than a amount of numbers e.g. range1to100 - guess number = 2 ** x > 100, so here its 7
-#
-# # Winning condition:
-# #     guessing the correct number within the given number of guesses
+# Game rules:
+#   1. Choose the game mode between: easy, medium, hard, custom,
+#   2. If you choose custom, input integer numbers to define range,
+#   3. Guess a number between range of numbers in defined limit.
 
+# Winning condition:
+#     Guessing the correct number within the given number of guesses.
+
+# Import necessary library
 import random
 
+# Welcome message
 print(".:Welcome to Guess the Number Game:.")
 
 
-def guess_the_number_game(difficulty):
+# Function to start the game
+def start_game():
+    while True:
+        # Prompt for difficulty level
+        print('Select difficulty level: Easy, Medium, Hard, Custom: ')
+        difficulty = str(input().casefold())
+
+        # Check if difficulty level is valid and start game mode accordingly
+        if difficulty in ['easy', 'medium', 'hard', 'custom']:
+            game_mode(difficulty)
+            break
+        else:
+            print("Invalid answer.")
+
+
+# Function to start game mode based on difficulty level
+def game_mode(difficulty):
+    # Set game parameters based on difficulty level
     if difficulty == 'easy':
         random_number = random.randint(1, 10)
         limit = 4
@@ -33,8 +48,10 @@ def guess_the_number_game(difficulty):
         max_value = 500
     elif difficulty == 'custom':
 
+        # Create empty list for values form player
         custom_values = []
 
+        # Ask for custom range and set game parameters accordingly
         while True:
             x = input("Input integer range from: ")
             try:
@@ -53,38 +70,54 @@ def guess_the_number_game(difficulty):
             except ValueError:
                 print("Invalid answer.")
 
+        # Add and sort values to the empty list form the lowest to the highest
         custom_values.sort()
         min_value = custom_values[0]
         max_value = custom_values[1]
 
+        # Check if custom range is valid
         if x == y:
             print("Nice try, but that would be too easy \U0001F609")
-            guess_the_number_game(difficulty)
+            game_mode(difficulty)
         else:
             random_number = random.randint(min_value, max_value)
 
-        x_and_y = abs(x - y)
+        abs_sub_x_y = abs(x - y)
 
-        if x_and_y == 1:
+        # Set up the limit
+        if abs_sub_x_y == 1:
             limit = 1
 
         else:
-            for limit in range(0, x_and_y + 1):
-                if 2 ** limit >= x_and_y:
+            for limit in range(0, abs_sub_x_y + 1):
+                if 2 ** limit >= abs_sub_x_y:
                     break
 
+    # Start the game with the selected parameters
+    game(difficulty, random_number, limit, min_value, max_value)
+
+
+# Function to play the game
+def game(difficulty, random_number, limit, min_value, max_value):
+    # Display game parameters
     print(f".:{difficulty.upper()} MODE:.")
     print(f"Guess a number between {min_value} and {max_value}. You have {limit} guesses.")
 
+    # Set attempts counter to 0
     attempts = 0
+
+    # Set beginning sort_min and sort_max values
     sort_min = min_value
     sort_max = max_value
 
+    # Loop until the player guesses the number or runs out of attempts
     while True:
         try:
+            # Set countdown
             countdown = limit
             while countdown >= 0:
 
+                # Calculate win probability for next guess
                 if countdown == limit:
                     win_probability = (1 / (abs(sort_min - sort_max) + 1) * 100)
                     print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
@@ -95,17 +128,21 @@ def guess_the_number_game(difficulty):
                     win_probability = 1 / (abs(sort_min - sort_max) - 1) * 100
                     print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
 
+                # End game if player is out of guesses
                 if countdown == 0:
                     print(f"Sorry, you didn't guess the number. It was {random_number}.")
                     break
 
+                # Reset loop if player guess is not in range of numbers
                 guess = int(input(f"You have {countdown} guesses left: "))
                 if guess not in range(sort_min, sort_max):
                     print(f"Please enter a valid number between {sort_min} and {sort_max}.")
                     continue
 
+                # Add attempt counter
                 attempts += 1
 
+                # Show information about the guess
                 if guess == random_number:
                     print(f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
                     break
@@ -128,6 +165,7 @@ def guess_the_number_game(difficulty):
         else:
             break
 
+    # Function to start new or exit game
     def new_quit_game():
 
         print("Do you want to play again? Yes/No ")
@@ -144,17 +182,6 @@ def guess_the_number_game(difficulty):
     new_quit_game()
 
 
-def start_game():
-    while True:
-        print('Select difficulty level: Easy, Medium, Hard, Custom: ')
-        difficulty = str(input().casefold())
-
-        if difficulty in ['easy', 'medium', 'hard', 'custom']:
-            guess_the_number_game(difficulty)
-            break
-        else:
-            print("Invalid answer.")
-
-
+# Program calls the "start_game()" function, which initiates the game
 if __name__ == "__main__":
     start_game()

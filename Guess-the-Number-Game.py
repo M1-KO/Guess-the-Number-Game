@@ -135,7 +135,7 @@ def game(difficulty, random_number, limit, min_value, max_value):
 
                 # Reset loop if player guess is not in range of numbers
                 guess = int(input(f"You have {countdown} guesses left: "))
-                if guess not in range(sort_min, sort_max):
+                if guess not in range(sort_min, sort_max + 1):
                     print(f"Please enter a valid number between {sort_min} and {sort_max}.")
                     continue
 

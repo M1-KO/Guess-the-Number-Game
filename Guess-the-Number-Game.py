@@ -109,6 +109,8 @@ def game(difficulty, random_number, limit, min_value, max_value):
     # Set beginning sort_min and sort_max values
     sort_min = min_value
     sort_max = max_value
+    edge_min = min_value
+    edge_max = max_value
 
     # Loop until the player guesses the number or runs out of attempts
     while True:
@@ -139,24 +141,37 @@ def game(difficulty, random_number, limit, min_value, max_value):
                     print(f"Please enter a valid number between {sort_min} and {sort_max}.")
                     continue
 
-                # Add attempt counter
-                attempts += 1
-
                 # Show information about the guess
                 if guess == random_number:
                     print(f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
                     break
 
                 elif guess < random_number:
-                    print("Too low!")
-                    if guess < sort_max:
+                    if guess == edge_min:
+                        print("Too low!")
+                        edge_min += 1
+                        sort_min = guess
+                    elif guess == sort_min:
+                        print("Invalid answer.")
+                        continue
+                    elif guess < sort_max:
+                        print("Too low!")
                         sort_min = guess
 
                 else:
-                    print("Too high!")
-                    if guess > sort_min:
+                    if guess == edge_max:
+                        print("Too high!")
+                        edge_max -= 1
+                        sort_max = guess
+                    elif guess == sort_max:
+                        print("Invalid answer.")
+                        continue
+                    elif guess > sort_min:
+                        print("Too high!")
                         sort_max = guess
 
+                # Add attempt counter
+                attempts += 1
                 countdown -= 1
 
         except ValueError:

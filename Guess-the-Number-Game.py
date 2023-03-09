@@ -106,7 +106,7 @@ def game(difficulty, random_number, limit, min_value, max_value):
     # Set attempts counter to 0
     attempts = 0
 
-    # Set beginning sort_min and sort_max values
+    # Set beginning sort_min, sort_max values, edge_min, edge_max
     sort_min = min_value
     sort_max = max_value
     edge_min = min_value
@@ -119,6 +119,11 @@ def game(difficulty, random_number, limit, min_value, max_value):
             countdown = limit
             while countdown >= 0:
 
+                # End game if player is out of guesses
+                if countdown == 0:
+                    print(f"Sorry, you didn't guess the number. It was {random_number}.")
+                    break
+
                 # Calculate win probability for next guess
                 if countdown == limit:
                     win_probability = (1 / (abs(sort_min - sort_max) + 1) * 100)
@@ -129,11 +134,6 @@ def game(difficulty, random_number, limit, min_value, max_value):
                 else:
                     win_probability = 1 / (abs(sort_min - sort_max) - 1) * 100
                     print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
-
-                # End game if player is out of guesses
-                if countdown == 0:
-                    print(f"Sorry, you didn't guess the number. It was {random_number}.")
-                    break
 
                 # Reset loop if player guess is not in range of numbers
                 guess = int(input(f"You have {countdown} guesses left: "))
@@ -172,6 +172,8 @@ def game(difficulty, random_number, limit, min_value, max_value):
 
                 # Add attempt counter
                 attempts += 1
+
+                # -1 to countdown
                 countdown -= 1
 
         except ValueError:

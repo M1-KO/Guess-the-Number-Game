@@ -119,67 +119,65 @@ def game(difficulty, random_number, limit, min_value, max_value):
             countdown = limit
             while countdown >= 0:
 
-                # End game if player is out of guesses
-                if countdown == 0:
-                    print(f"Sorry, you didn't guess the number. It was {random_number}.")
-                    break
-
                 # Calculate win probability for next guess
                 if countdown == limit:
                     win_probability = (1 / (abs(sort_min - sort_max) + 1) * 100)
                     print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
-                elif (sort_min == min_value) ^ (sort_max == max_value):
+                elif (sort_min == edge_min) ^ (sort_max == edge_max):
                     win_probability = 1 / (abs(sort_min - sort_max)) * 100
                     print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
                 else:
                     win_probability = 1 / (abs(sort_min - sort_max) - 1) * 100
                     print(f"Probability of winning in next guess: {round(win_probability, 2)}%")
 
-                # Reset loop if player guess is not in range of numbers
+                # Player guess a number
                 guess = int(input(f"You have {countdown} guesses left: "))
-                # if guess not in range(sort_min, sort_max + 1):
-                #     print(f"Please enter a valid number between {sort_min} and {sort_max}.")
-                #     continue
 
                 # Show information about the guess
-                if guess == random_number:
-                    if guess == (countdown == limit):
-                        print(f"Nice!, the number was {random_number} and You guessed it in your 1st attempt!")
-                        break
-                    else:
-                        attempts += 1
-                        print(f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
-                        break
-
-                elif guess < random_number:
+                if guess < random_number:
                     if guess == edge_min:
-                        print("Too low!")
+                        print("TOO LOW!")
                         edge_min += 1
                         sort_min = guess
                     elif guess <= sort_min:
                         print("Invalid answer.")
                         continue
                     elif guess < sort_max:
-                        print("Too low!")
+                        print("TOO LOW!")
                         sort_min = guess
 
-                else:
+                elif guess > random_number:
                     if guess == edge_max:
-                        print("Too high!")
+                        print("TOO HIGH!")
                         edge_max -= 1
                         sort_max = guess
                     elif guess >= sort_max:
                         print("Invalid answer.")
                         continue
                     elif guess > sort_min:
-                        print("Too high!")
+                        print("TOO HIGH!")
                         sort_max = guess
+
+                else:
+                    if guess == (countdown == limit):
+                        print(f"Nice!, the number was {random_number} and You guessed it in your 1st attempt!")
+                        break
+                    else:
+                        attempts += 1
+                        print(
+                            f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
+                        break
 
                 # Add attempt counter
                 attempts += 1
 
                 # -1 to countdown
                 countdown -= 1
+
+                # End game if player is out of guesses
+                if countdown == 0:
+                    print(f"Sorry, you didn't guess the number. It was {random_number}.")
+                    break
 
         except ValueError:
             print("Invalid answer.")

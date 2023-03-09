@@ -137,21 +137,26 @@ def game(difficulty, random_number, limit, min_value, max_value):
 
                 # Reset loop if player guess is not in range of numbers
                 guess = int(input(f"You have {countdown} guesses left: "))
-                if guess not in range(sort_min, sort_max + 1):
-                    print(f"Please enter a valid number between {sort_min} and {sort_max}.")
-                    continue
+                # if guess not in range(sort_min, sort_max + 1):
+                #     print(f"Please enter a valid number between {sort_min} and {sort_max}.")
+                #     continue
 
                 # Show information about the guess
                 if guess == random_number:
-                    print(f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
-                    break
+                    if guess == (countdown == limit):
+                        print(f"Nice!, the number was {random_number} and You guessed it in your 1st attempt!")
+                        break
+                    else:
+                        attempts += 1
+                        print(f"Nice!, the number was {random_number} and You guessed it in {attempts} attempts!")
+                        break
 
                 elif guess < random_number:
                     if guess == edge_min:
                         print("Too low!")
                         edge_min += 1
                         sort_min = guess
-                    elif guess == sort_min:
+                    elif guess <= sort_min:
                         print("Invalid answer.")
                         continue
                     elif guess < sort_max:
@@ -163,7 +168,7 @@ def game(difficulty, random_number, limit, min_value, max_value):
                         print("Too high!")
                         edge_max -= 1
                         sort_max = guess
-                    elif guess == sort_max:
+                    elif guess >= sort_max:
                         print("Invalid answer.")
                         continue
                     elif guess > sort_min:
